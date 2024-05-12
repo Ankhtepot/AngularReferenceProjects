@@ -1,4 +1,5 @@
 import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {CommonModule} from "@angular/common";
 
 /**
  * A component that swaps between two images at a set interval, with a fade animation.
@@ -6,7 +7,9 @@ import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChil
 @Component({
   selector: 'app-wrap-swapping-background',
   templateUrl: './wrap-swapping-background.component.html',
-  styleUrl: './wrap-swapping-background.component.scss'
+  styleUrl: './wrap-swapping-background.component.scss',
+  standalone: true,
+  imports: [CommonModule]
 })
 export class WrapSwappingBackgroundComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('primary_image') primaryImage: ElementRef;

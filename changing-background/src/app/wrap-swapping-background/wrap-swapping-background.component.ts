@@ -1,5 +1,8 @@
 import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
+/**
+ * A component that swaps between two images at a set interval, with a fade animation.
+ */
 @Component({
   selector: 'app-wrap-swapping-background',
   templateUrl: './wrap-swapping-background.component.html',
@@ -9,13 +12,40 @@ export class WrapSwappingBackgroundComponent implements OnInit, AfterViewInit, O
   @ViewChild('primary_image') primaryImage: ElementRef;
   @ViewChild('secondary_image') secondaryImage: ElementRef;
   @ViewChild('wrapper') wrapper: ElementRef;
+  /**
+   * An array of image URLs to swap between
+   */
   @Input() images: string[] = [];
+  /**
+   * The distance from the top of the screen to the top of the background. Default is 0.
+   */
   @Input() top: number = 0;
+  /**
+   * The distance from the bottom of the screen to the bottom of the background. Default is 0.
+   * @default 0
+   */
   @Input() bottom: number = 0;
+  /**
+   * The time in milliseconds between each image swap. Default is 5000.
+   * @default 5000
+   */
   @Input() timeBetweenSwaps: number = 5000;
+  /**
+   * The time in milliseconds for the transition animation. Default is 2000.
+   * @default 2000
+   */
   @Input() transitionTime: number = 2000;
+  /**
+   * The color of the overlay. Default is white.
+   * @default 'white'
+   */
   @Input() overlayColor: string = 'white';
+  /**
+   * The opacity of the overlay. Default is 0.5.
+   * @default 0.5
+   */
   @Input() overlayOpacity: number = 0.5;
+
   doLoop = true;
   primaryImageStyle: CSSStyleDeclaration;
   secondaryImageStyle: CSSStyleDeclaration
@@ -48,9 +78,14 @@ export class WrapSwappingBackgroundComponent implements OnInit, AfterViewInit, O
   }
 
   ngOnDestroy(): void {
+    // Stop the loop when the component is destroyed.
     this.doLoop = false;
   }
 
+  /**
+   * Runs the image swap loop.
+   * @private
+   */
   private async imageSwapLoop() {
     while (this.doLoop) {
       await this.delay(this.timeBetweenSwaps);
@@ -58,6 +93,10 @@ export class WrapSwappingBackgroundComponent implements OnInit, AfterViewInit, O
     }
   }
 
+  /**
+   * Swaps the primary and secondary images with a fade animation.
+   * @private
+   */
   private async swapImages() {
     let primaryImageSrc = this.primaryImageStyle.backgroundImage;
     let secondaryImageSrc = this.secondaryImageStyle.backgroundImage;
@@ -77,6 +116,12 @@ export class WrapSwappingBackgroundComponent implements OnInit, AfterViewInit, O
     this.primaryImageStyle.opacity = '1';
   }
 
+  /**
+   * Swaps the primary and secondary images.
+   * @param secondaryImageSrc - The source of the secondary image.
+   * @param primaryImageSrc - The source of the primary image.
+   * @private
+   */
   private swapBackgrounds(secondaryImageSrc: string, primaryImageSrc: string) {
     if (this.images.length === 2) {
       // swaps primary and secondary images
@@ -94,6 +139,11 @@ export class WrapSwappingBackgroundComponent implements OnInit, AfterViewInit, O
     }
   }
 
+  /**
+   * Delays execution by the specified number of milliseconds.
+   * @param ms - The number of milliseconds to delay.
+   * @private
+   */
   async delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
